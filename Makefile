@@ -13,6 +13,8 @@ OBJ_DIR:=obj
 SRCS:=$(wildcard $(addsuffix /*.cpp, $(SRC_DIRS)))
 OBJS:=$(addprefix $(OBJ_DIR)/, $(patsubst %.cpp, %.o, $(SRCS)))
 
+HEADS:=$(wildcard $(addsuffix /*.hpp, $(INC_DIRS)))
+
 INC:=$(addprefix, -I, $(INC_DIRS))
 LFLAGS:=-s USE_GLFW=3 -DPLATFORM_WEB -lglfw -L./lib/ -lraylib
 CFLAGS:=-std=c++23
@@ -27,7 +29,7 @@ run: $(OUT)
 $(OUT): $(OBJS)
 	$(CC) $(INC) $^ $(CFLAGS) $(LFLAGS) -o $@ $(PRELOAD)
 
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: %.cpp $(HEADS)
 	$(CC) $(INC) $(CFLAGS) -c $< -o $@ 
 
 .PHONY: clean
