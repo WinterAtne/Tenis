@@ -30,8 +30,7 @@ public:
 				Rectangle overlap = GetCollisionRec(rect, colliders[i]);
 
 				rect.x = colliders[i].x + ((velocity.x < 0) ? colliders[i].width + rect.width: -rect.width);
-
-				// rect.y -= velocity.y;
+				rect.y -= velocity.y;
 
 				if (overlap.width < overlap.height) {
 					velocity.x *= -1;
