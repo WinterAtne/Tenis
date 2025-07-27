@@ -1,14 +1,67 @@
 #include <emscripten.h>
 #include <raylib.h>
 
-void loop() {
+const int screen_width = 800;
+const int screen_height = 450;
+
+const int paddle_edge_padding = 10;
+const Vector2 paddle_dimensions = {10, 50};
+
+const float paddle_speed = 5.0f;
+
+Rectangle center_line = {
+	screen_width/2.0f - 2.5, 1,
+	5, screen_height,
+};
+
+Rectangle left_paddle = {
+	paddle_edge_padding, screen_height/2.0f,
+	paddle_dimensions.x, paddle_dimensions.y
+};
+
+Rectangle right_paddle = {
+	screen_width - paddle_edge_padding - paddle_dimensions.x, screen_height/2.0f,
+	paddle_dimensions.x, paddle_dimensions.y
+};
+
+void move_paddle(Rectangle &rect, KeyboardKey up, KeyboardKey down) {
+
+	if (IsKeyDown(up)) {
+		rect.y-=paddle_speed;
+		if (rect.y < 0) {
+			rect.y = 0;
+		} 
+	}
+
+	if (IsKeyDown(down)) {
+		rect.y+=paddle_speed;
+		if (rect.y > screen_height - paddle_dimensions.y) {
+			rect.y = screen_height - paddle_dimensions.y;
+		}
+	}
+
+}
+
+void update() {
+	move_paddle(left_paddle, KEY_W, KEY_S);
+	move_paddle(right_paddle, KEY_I, KEY_K);
+}
+
+void render() {
 	BeginDrawing();
-		DrawText("Hello, World!", 200, 200, 20, RAYWHITE);
+		DrawRectangleRec(left_paddle, RAYWHITE);
+		DrawRectangleRec(right_paddle, RAYWHITE);
+		DrawRectangleRec(center_line, LIGHTGRAY);	
 	EndDrawing();
 }
 
+void loop() {
+	update();
+	render();
+}
+
 int main(void) {
-	InitWindow(800, 450, "Pong!");
+	InitWindow(screen_width, screen_height, "Pong!");
 	emscripten_set_main_loop(loop, 60, true);
 	CloseWindow();
 	return 0;
