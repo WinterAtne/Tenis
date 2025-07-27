@@ -1,0 +1,7 @@
+-target
+wasm32-unknown-emscripten
+-Xclang 
+-I/opt/emsdk/upstream/emscripten/cache/sysroot/include/
+--sysroot=/opt/emsdk/upstream/emscripten/cache/sysroot
+-Xclang
+-iwithsysroot/include/compat
