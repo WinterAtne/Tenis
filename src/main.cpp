@@ -1,4 +1,6 @@
+#include <cstdio>
 #include <emscripten.h>
+#include <ostream>
 #include <raylib.h>
 #include <sstream>
 
@@ -47,7 +49,7 @@ void update() {
 	left_paddle.Update();
 	right_paddle.Update();
 
-	SCORE point = ball.Move(play_field, (Rectangle[2]){left_paddle.rect, right_paddle.rect}, 2, paddle_edge_padding);
+	SCORE point = ball.Move(play_field, left_paddle, right_paddle);
 	if (point == POINT_RIGHT) {
 		right_point++;
 		ball = Ball(center, right_point + left_point);
@@ -60,6 +62,7 @@ void update() {
 }
 
 void render() {
+	ClearBackground(BLACK);
 	BeginDrawing();
 		left_paddle.Draw();
 		right_paddle.Draw();
@@ -84,6 +87,17 @@ void render() {
 				screen_height/2.0f,
 				20.0f,
 				RAYWHITE);
+
+		/* Uncomment for FPS count */
+		// std::ostringstream fps;
+		// fps << GetFPS();
+		//
+		// DrawText(
+		// 		fps.str().c_str(),
+		// 		(screen_height - 40.0f),
+		// 		10.0f,
+		// 		20.0f,
+		// 		RAYWHITE);
 	EndDrawing();
 }
 
@@ -95,17 +109,16 @@ void loop() {
 int main(void) {
 	srand((time(0)));
 	InitWindow(screen_width, screen_height, "Pong!");
-	SetWindowFocused();
 	InitAudioDevice();
 
 	hit_sound = LoadSound("resources/hit.wav");
 	point_sound = LoadSound("resources/point.wav");
 
-	SetTargetFPS(60);
-
-	emscripten_set_main_loop(loop, 60, true);
+	printf("INFO: sound may not play till you click the screen, this is a javascript problem.\n");
+	emscripten_set_main_loop(loop, 0, true);
 
 	UnloadSound(hit_sound);
+	UnloadSound(point_sound);
 	CloseAudioDevice();
 	CloseWindow();
 	return 0;

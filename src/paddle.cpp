@@ -1,4 +1,6 @@
 #include "paddle.hpp"
+
+#include <cmath>
 #include <raylib.h>
 
 Paddle::Paddle(Vector2 position, KeyboardKey up, KeyboardKey down) {
@@ -10,17 +12,19 @@ Paddle::Paddle(Vector2 position, KeyboardKey up, KeyboardKey down) {
 
 void Paddle::Update() {
 	if (IsKeyDown(up)) {
-		rect.y-=max_speed;
-		if (rect.y < 0) {
-			rect.y = 0;
-		} 
+		velocity = std::lerp(velocity, -max_speed, acceloration);
+	} else if (IsKeyDown(down)) {
+		velocity = std::lerp(velocity, max_speed, acceloration);
+	} else {
+		velocity = std::lerp(velocity, 0, decceloration);
 	}
 
-	if (IsKeyDown(down)) {
-		rect.y+=max_speed;
-		if (rect.y > GetScreenHeight() - rect.height) {
-			rect.y = GetScreenHeight() - rect.height;
-		}
+	rect.y += velocity * GetFrameTime() * 60;
+
+	if (rect.y < 0) {
+		rect.y = 0;
+	} else if (rect.y > GetScreenHeight() - rect.height) {
+		rect.y = GetScreenHeight() - rect.height;
 	}
 }
 

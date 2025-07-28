@@ -4,6 +4,18 @@
 #include <cstdlib>
 #include <raylib.h>
 
+bool Ball::paddle_collision(const Paddle &paddle) {
+	if (CheckCollisionRecs(rect, paddle.rect)) {
+		rect.x -= velocity.x * GetFrameTime() * 60;
+		rect.y -= velocity.y * GetFrameTime() * 60;
+		velocity.x *= -1;
+		PlaySound(hit_sound);
+		return true;
+	}
+
+	return false;
+}
+
 Ball::Ball(Vector2 position, int round) {
 	rect = {position.x - 2.5f, position.y - 2.5f, 5.0f, 5.0f};
 
@@ -21,31 +33,23 @@ Ball::Ball(Vector2 position, int round) {
 	velocity.y = std::sin(angle) * (speed);
 }
 
-SCORE Ball::Move(const Rectangle &play_field, const Rectangle colliders[], const int num_colliders, int play_field_padding) {
-	rect.x += velocity.x;
-	rect.y += velocity.y;
+// Literally every bug in this game exists in this one function;
+SCORE Ball::Move(const Rectangle &play_field, const Paddle &left_paddle, const Paddle &right_paddle) {
+	rect.x += velocity.x * GetFrameTime() * 60;
+	rect.y += velocity.y * GetFrameTime() * 60;
 
 	/* Paddles */
-	for (int i = 0; i < num_colliders; i++) {
-		if (CheckCollisionRecs(rect, colliders[i])) {
-			Rectangle overlap = GetCollisionRec(rect, colliders[i]);
-
-			rect.x = colliders[i].x + ((velocity.x < 0) ? colliders[i].width + rect.width: -rect.width);
-			rect.y -= velocity.y;
-
-			if (overlap.width < overlap.height) {
-				velocity.x *= -1;
-			} else {
-				velocity.y *= -1;
-			}
-
-			PlaySound(hit_sound);
-		}
+	bool collided = false;
+	if (velocity.x > 0) {
+		collided = paddle_collision(right_paddle);
+	} else {
+		collided = paddle_collision(left_paddle);
 	}
 
 	/* Play Field */
-	if ((rect.x > play_field_padding + colliders[0].width ||  rect.x < play_field.width - play_field_padding - colliders[0].width) &&
-		 (rect.y <= play_field.y || rect.y >= play_field.height - rect.height)) {
+	if (!collided && (rect.y <= play_field.y || rect.y >= play_field.height - rect.height)) {
+		rect.x -= velocity.x * GetFrameTime() * 60;
+		rect.y -= velocity.y * GetFrameTime() * 60;
 		velocity.y *= -1;
 		PlaySound(hit_sound);
 	}
@@ -59,6 +63,7 @@ SCORE Ball::Move(const Rectangle &play_field, const Rectangle colliders[], const
 		return NO_POINT;
 	}
 }
+
 
 void Ball::Draw() {
 	DrawRectangleRec(rect, COLOR);
