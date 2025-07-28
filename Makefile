@@ -16,7 +16,7 @@ OBJS:=$(addprefix $(OBJ_DIR)/, $(patsubst %.cpp, %.o, $(SRCS)))
 HEADS:=$(wildcard $(addsuffix /*.hpp, $(INC_DIRS)))
 
 INC:=$(addprefix, -I, $(INC_DIRS))
-LFLAGS:=-s USE_GLFW=3 -DPLATFORM_WEB -lglfw -L./lib/ -lraylib
+LFLAGS:=-s USE_GLFW=3 -DPLATFORM_WEB -lglfw -L./lib/ -lraylib --preload-file resources -s TOTAL_MEMORY=67108864 -s FORCE_FILESYSTEM=1
 CFLAGS:=-std=c++23
 
 OUT_DIRS:=$(addprefix $(OBJ_DIR)/, $(SRC_DIRS))

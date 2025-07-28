@@ -10,7 +10,7 @@ const int screen_height = 450;
 const int paddle_edge_padding = 10;
 const Vector2 paddle_dimensions = {10, 50};
 
-const float paddle_speed = 5.0f;
+const float paddle_speed = 7.5f;
 
 int left_point = 0;
 int right_point = 0;
@@ -40,6 +40,8 @@ Vector2 center = {
 };
 
 Ball ball = Ball(center, right_point + left_point);
+Sound hit_sound = {};
+Sound point_sound = {};
 
 int sign(int a) {
 	if (a > 0) { return 1; }
@@ -69,13 +71,15 @@ void update() {
 	move_paddle(left_paddle, KEY_W, KEY_S);
 	move_paddle(right_paddle, KEY_I, KEY_K);
 
-	SCORE point = ball.Move(play_field, (Rectangle[2]){left_paddle, right_paddle}, 2);
+	SCORE point = ball.Move(play_field, (Rectangle[2]){left_paddle, right_paddle}, 2, paddle_edge_padding);
 	if (point == POINT_RIGHT) {
 		right_point++;
 		ball = Ball(center, right_point + left_point);
+		PlaySound(point_sound);
 	} else if (point == POINT_LEFT) {
 		left_point++;
 		ball = Ball(center, right_point + left_point);
+		PlaySound(point_sound);
 	}
 }
 
@@ -115,7 +119,18 @@ void loop() {
 int main(void) {
 	srand((time(0)));
 	InitWindow(screen_width, screen_height, "Pong!");
+	SetWindowFocused();
+	InitAudioDevice();
+
+	hit_sound = LoadSound("resources/hit.wav");
+	point_sound = LoadSound("resources/point.wav");
+
+	SetTargetFPS(60);
+
 	emscripten_set_main_loop(loop, 60, true);
+
+	UnloadSound(hit_sound);
+	CloseAudioDevice();
 	CloseWindow();
 	return 0;
 }
