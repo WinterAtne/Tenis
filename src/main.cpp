@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "ball.hpp"
+#include "paddle.hpp"
 
 const int screen_width = 800;
 const int screen_height = 450;
@@ -25,15 +26,8 @@ Rectangle center_line = {
 	5, screen_height,
 };
 
-Rectangle left_paddle = {
-	paddle_edge_padding, screen_height/2.0f,
-	paddle_dimensions.x, paddle_dimensions.y
-};
-
-Rectangle right_paddle = {
-	screen_width - paddle_edge_padding - paddle_dimensions.x, screen_height/2.0f,
-	paddle_dimensions.x, paddle_dimensions.y
-};
+Paddle left_paddle = Paddle({paddle_edge_padding, screen_height/2.0}, KEY_W, KEY_S);
+Paddle right_paddle = Paddle({screen_width - paddle_edge_padding - paddle_dimensions.x, screen_height/2.0f}, KEY_I, KEY_K);
 
 Vector2 center = {
 	screen_width/2.0f - 2.5, screen_height/2.0f - 2.5,
@@ -49,29 +43,11 @@ int sign(int a) {
 	return 0;
 }
 
-void move_paddle(Rectangle &rect, KeyboardKey up, KeyboardKey down) {
-
-	if (IsKeyDown(up)) {
-		rect.y-=paddle_speed;
-		if (rect.y < 0) {
-			rect.y = 0;
-		} 
-	}
-
-	if (IsKeyDown(down)) {
-		rect.y+=paddle_speed;
-		if (rect.y > screen_height - paddle_dimensions.y) {
-			rect.y = screen_height - paddle_dimensions.y;
-		}
-	}
-
-}
-
 void update() {
-	move_paddle(left_paddle, KEY_W, KEY_S);
-	move_paddle(right_paddle, KEY_I, KEY_K);
+	left_paddle.Update();
+	right_paddle.Update();
 
-	SCORE point = ball.Move(play_field, (Rectangle[2]){left_paddle, right_paddle}, 2, paddle_edge_padding);
+	SCORE point = ball.Move(play_field, (Rectangle[2]){left_paddle.rect, right_paddle.rect}, 2, paddle_edge_padding);
 	if (point == POINT_RIGHT) {
 		right_point++;
 		ball = Ball(center, right_point + left_point);
@@ -85,8 +61,8 @@ void update() {
 
 void render() {
 	BeginDrawing();
-		DrawRectangleRec(left_paddle, RAYWHITE);
-		DrawRectangleRec(right_paddle, RAYWHITE);
+		left_paddle.Draw();
+		right_paddle.Draw();
 		DrawRectangleRec(center_line, LIGHTGRAY);	
 		ball.Draw();
 
