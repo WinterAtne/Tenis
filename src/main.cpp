@@ -39,7 +39,7 @@ Vector2 center = {
 	screen_width/2.0f - 2.5, screen_height/2.0f - 2.5,
 };
 
-Ball ball = Ball(center);
+Ball ball = Ball(center, right_point + left_point);
 
 int sign(int a) {
 	if (a > 0) { return 1; }
@@ -72,10 +72,10 @@ void update() {
 	SCORE point = ball.Move(play_field, (Rectangle[2]){left_paddle, right_paddle}, 2);
 	if (point == POINT_RIGHT) {
 		right_point++;
-		ball = Ball(center);
+		ball = Ball(center, right_point + left_point);
 	} else if (point == POINT_LEFT) {
 		left_point++;
-		ball = Ball(center);
+		ball = Ball(center, right_point + left_point);
 	}
 }
 
@@ -100,6 +100,7 @@ void loop() {
 }
 
 int main(void) {
+	srand((time(0)));
 	InitWindow(screen_width, screen_height, "Pong!");
 	emscripten_set_main_loop(loop, 60, true);
 	CloseWindow();
