@@ -11,8 +11,8 @@ class Ball {
 private:
 	static constexpr Color COLOR = RAYWHITE;
 	static constexpr float min_speed = 2.0f;
-	static constexpr float max_speed = 6.4f;
-	static constexpr float speed_increase = 0.41f;
+	static constexpr float max_speed = 5.8f;
+	static constexpr float speed_increase = 0.4f;
 	Rectangle rect;
 	Vector2 velocity;
 

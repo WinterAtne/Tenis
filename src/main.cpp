@@ -86,11 +86,24 @@ void render() {
 		DrawRectangleRec(center_line, LIGHTGRAY);	
 		ball.Draw();
 
-		std::ostringstream score;
-		score << left_point << " / " << right_point;
+		std::ostringstream left_text;
+		std::ostringstream right_text;
+		left_text << left_point;
+		right_text << right_point;
 
-		DrawText(score.str().c_str(), 0, 0, 20, RAYWHITE);
+		DrawText(
+				left_text.str().c_str(),
+				(screen_width/2.0f) - 10 - (MeasureText(left_text.str().c_str(), 20)),
+				screen_height/2.0f,
+				20.0f,
+				RAYWHITE);
 
+		DrawText(
+				right_text.str().c_str(),
+				(screen_width/2.0f) + 8,
+				screen_height/2.0f,
+				20.0f,
+				RAYWHITE);
 	EndDrawing();
 }
 
