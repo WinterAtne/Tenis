@@ -37,6 +37,7 @@ obj
 *.exe
 *.out
 *.app
+*.zip
 bin
 
 # debug information files

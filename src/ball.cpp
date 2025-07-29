@@ -64,7 +64,6 @@ SCORE Ball::Move(const Rectangle &play_field, const Paddle &left_paddle, const P
 	}
 }
 
-
 void Ball::Draw() {
 	DrawRectangleRec(rect, COLOR);
 }

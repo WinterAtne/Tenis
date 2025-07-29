@@ -7,8 +7,8 @@
 #include "ball.hpp"
 #include "paddle.hpp"
 
-const int screen_width = 800;
-const int screen_height = 450;
+const int screen_width = 630;
+const int screen_height = 500;
 
 const int paddle_edge_padding = 10;
 const Vector2 paddle_dimensions = {10, 50};
@@ -108,7 +108,7 @@ void loop() {
 
 int main(void) {
 	srand((time(0)));
-	InitWindow(screen_width, screen_height, "Pong!");
+	InitWindow(screen_width, screen_height, "¡Tenis!");
 	InitAudioDevice();
 
 	hit_sound = LoadSound("resources/hit.wav");
