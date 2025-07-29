@@ -36,9 +36,12 @@ Ball::Ball(Vector2 position, int round) {
 	int x_sign = ((round % 2 == 0) ? -1 : 1);
 	int y_sign = ((round % 3 == 0) ? -1 : 1);
 
-	float slope = y_sign * ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) + 1.0f) / 2.0f;
-	float angle = std::atan(slope);
+	float slope = 1.0f;
+	while (slope > (PI / 4.0f - 0.2f)) {
+		slope = y_sign * ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) + (1.0f/3.0f));
+	}
 
+	float angle = std::atan(slope);
 
 	float speed = (speed_increase * round) + min_speed;
 	if (speed > max_speed) { speed = max_speed; }
