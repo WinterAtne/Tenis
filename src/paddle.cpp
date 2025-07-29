@@ -12,11 +12,11 @@ Paddle::Paddle(Vector2 position, KeyboardKey up, KeyboardKey down) {
 
 void Paddle::Update() {
 	if (IsKeyDown(up)) {
-		velocity = std::lerp(velocity, -max_speed, acceloration);
+		velocity = std::lerp(velocity, -max_speed, acceloration * GetFrameTime() * 60);
 	} else if (IsKeyDown(down)) {
-		velocity = std::lerp(velocity, max_speed, acceloration);
+		velocity = std::lerp(velocity, max_speed, acceloration * GetFrameTime() * 60);
 	} else {
-		velocity = std::lerp(velocity, 0, decceloration);
+		velocity = std::lerp(velocity, 0, decceloration * GetFrameTime() * 60);
 	}
 
 	rect.y += velocity * GetFrameTime() * 60;

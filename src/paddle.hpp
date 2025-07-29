@@ -3,9 +3,9 @@
 #include <raylib.h>
 class Paddle {
 private:
-	static constexpr float max_speed = 8.0f;
-	static constexpr float acceloration = 0.4f;
-	static constexpr float decceloration = 0.6f;
+	static constexpr float max_speed = 9.0f;
+	static constexpr float acceloration = 0.25f;
+	static constexpr float decceloration = 0.3f;
 
 	float velocity = 0.0f;
 
