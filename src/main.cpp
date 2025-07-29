@@ -36,7 +36,9 @@ Vector2 center = {
 };
 
 Ball ball = Ball(center, right_point + left_point);
-Sound hit_sound = {};
+Sound hit_sound0 = {};
+Sound hit_sound1 = {};
+Sound hit_sound2 = {};
 Sound point_sound = {};
 
 int sign(int a) {
@@ -108,16 +110,21 @@ void loop() {
 
 int main(void) {
 	srand((time(0)));
+	SetRandomSeed(time(0));
 	InitWindow(screen_width, screen_height, "¡Tenis!");
 	InitAudioDevice();
 
-	hit_sound = LoadSound("resources/hit.wav");
+	hit_sound0 = LoadSound("resources/hit0.wav");
+	hit_sound1 = LoadSound("resources/hit1.wav");
+	hit_sound2 = LoadSound("resources/hit2.wav");
 	point_sound = LoadSound("resources/point.wav");
 
 	printf("INFO: sound may not play till you click the screen, this is a javascript problem.\n");
 	emscripten_set_main_loop(loop, 0, true);
 
-	UnloadSound(hit_sound);
+	UnloadSound(hit_sound0);
+	UnloadSound(hit_sound1);
+	UnloadSound(hit_sound2);
 	UnloadSound(point_sound);
 	CloseAudioDevice();
 	CloseWindow();

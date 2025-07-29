@@ -4,12 +4,26 @@
 #include <cstdlib>
 #include <raylib.h>
 
+void play_hit_sound() {
+	switch (GetRandomValue(0, 2)) {
+		case 0:
+			PlaySound(hit_sound0);
+			break;
+		case 1:
+			PlaySound(hit_sound1);
+			break;
+		case 2:
+			PlaySound(hit_sound2);
+			break;
+	}
+}
+
 bool Ball::paddle_collision(const Paddle &paddle) {
 	if (CheckCollisionRecs(rect, paddle.rect)) {
 		rect.x -= velocity.x * GetFrameTime() * 60;
 		rect.y -= velocity.y * GetFrameTime() * 60;
 		velocity.x *= -1;
-		PlaySound(hit_sound);
+		play_hit_sound();
 		return true;
 	}
 
@@ -51,7 +65,7 @@ SCORE Ball::Move(const Rectangle &play_field, const Paddle &left_paddle, const P
 		rect.x -= velocity.x * GetFrameTime() * 60;
 		rect.y -= velocity.y * GetFrameTime() * 60;
 		velocity.y *= -1;
-		PlaySound(hit_sound);
+		play_hit_sound();
 	}
 
 	/* Get Point */

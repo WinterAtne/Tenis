@@ -9,7 +9,9 @@ typedef enum SCORE {
 	NO_POINT,
 } SCORE;
 
-extern Sound hit_sound;
+extern Sound hit_sound0;
+extern Sound hit_sound1;
+extern Sound hit_sound2;
 
 class Ball {
 private:
