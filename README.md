@@ -8,4 +8,4 @@ The ball will accelerate slightly as the rounds go on, although it wont get fast
 Can be played on [itch.io](https://winteratne.itch.io/tenis)
 
 ### Usage
-Install [emscripten](https://emscripten.org/), and build [raylib](https://www.raylib.com/) for web. Clone the repo, and take libraylib.a from build/raylib under the raylib build, and place it into a lib directory. Run make, and your browser will open and you'll be playing ¡Tenis!
+Install [emscripten](https://emscripten.org/), and build [raylib](https://www.raylib.com/) for web. Clone the repo, and take libraylib.a from build/raylib, and place it into a lib directory in the Tenis repository. Run make, and your browser will open and you'll be playing ¡Tenis!
