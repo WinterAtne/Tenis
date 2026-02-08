@@ -8,4 +8,4 @@ The ball will accelerate slightly as the rounds go on, although it wont get fast
 Can be played on [itch.io](https://winteratne.itch.io/tenis)
 
 ### Usage
-Install [emscripten](https://emscripten.org/), and build [raylib](https://www.raylib.com/) for [web](https://terminalroot.com/how-to-install-raylib-with-web-support/). Clone this repo, and take libraylib.a from raylib/raylib, and place it into a lib directory in the Tenis repository. Run `make clean` and `make`, then your browser will open and you'll be playing ¡Tenis!
+Install [emscripten](https://emscripten.org/), and build [raylib](https://www.raylib.com/) for [web](https://terminalroot.com/how-to-install-raylib-with-web-support/). Clone this repo, and take libraylib.a from raylib/raylib, and place it into a lib directory in the Tenis repository. Run `make clean` and `make`, then your browser will open and you'll be playing ¡Tenis! (Note that the game will not begin playing sound until at least one mouse click has been made on the page; this is a security feature of javascript).
